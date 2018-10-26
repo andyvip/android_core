@@ -34,11 +34,13 @@ import org.ros.android.view.visualization.layer.CameraControlListener;
 import org.ros.android.view.visualization.layer.LaserScanLayer;
 import org.ros.android.view.visualization.layer.Layer;
 import org.ros.android.view.visualization.layer.OccupancyGridLayer;
+import org.ros.android.view.visualization.layer.PathLayer;
 import org.ros.android.view.visualization.layer.RobotLayer;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 import org.ros.time.NtpTimeProvider;
 
+import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends RosActivity {
@@ -51,9 +53,10 @@ public class MainActivity extends RosActivity {
   private VisualizationView visualizationView;
   private ToggleButton followMeToggleButton;
   private CameraControlLayer cameraControlLayer;
+  private MapPosePublisherLayer mapPosePublisherLayer;
 
   public MainActivity() {
-    super("Map Viewer", "Map Viewer");
+    super("Map Viewer", "Map Viewer", URI.create("http://10.42.0.1:11311"));
     systemCommands = new SystemCommands();
   }
 
@@ -66,8 +69,17 @@ public class MainActivity extends RosActivity {
     setContentView(R.layout.main);
     visualizationView = (VisualizationView) findViewById(R.id.visualization);
     cameraControlLayer = new CameraControlLayer();
-    visualizationView.onCreate(Lists.<Layer>newArrayList(cameraControlLayer,
-        new OccupancyGridLayer("map"), new LaserScanLayer("scan"), new RobotLayer(ROBOT_FRAME)));
+    mapPosePublisherLayer = new MapPosePublisherLayer(this);
+    visualizationView.onCreate(Lists.<Layer>newArrayList(
+          cameraControlLayer,
+          new OccupancyGridLayer("map"),
+          new OccupancyGridLayer("move_base/local_costmap/costmap"),
+          new LaserScanLayer("scan"),
+          new PathLayer("move_base/NavfnROS/plan"),
+          mapPosePublisherLayer,
+          new InitialPoseSubscriberLayer("initialpose", ROBOT_FRAME),
+          new RobotLayer(ROBOT_FRAME)));
+
     followMeToggleButton = (ToggleButton) findViewById(R.id.follow_me_toggle_button);
     enableFollowMe();
   }
@@ -159,5 +171,21 @@ public class MainActivity extends RosActivity {
         followMeToggleButton.setChecked(false);
       }
     });
+  }
+
+
+  public void setPoseClicked(View view) {
+    setPose();
+  }
+
+  public void setGoalClicked(View view) {
+    setGoal();
+  }
+  private void setPose() {
+    mapPosePublisherLayer.setPoseMode();
+  };
+
+  private void setGoal() {
+    mapPosePublisherLayer.setGoalMode();
   }
 }

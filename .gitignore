@@ -23,3 +23,4 @@ build-log.xml
 /android_sensors_driver/
 *~
 *.log
+.DS_Store

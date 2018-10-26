@@ -79,6 +79,12 @@ configure(subprojects.findAll { it.name.startsWith("android_") }) {
             }
         }
     }
+
+    uploadArchives {
+        repositories.mavenDeployer {
+            repository(url: 'file:///Users/andy/.m2/repository')
+        }
+    }
 }
 
 defaultTasks 'assembleRelease', 'uploadArchives'

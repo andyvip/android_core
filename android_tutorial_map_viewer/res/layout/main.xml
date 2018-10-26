@@ -39,6 +39,29 @@
             android:layout_height="wrap_content"
             android:onClick="onSaveMapButtonClicked"
             android:text="Save Map" />
+
+         <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/set_pose_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setPoseClicked"
+                android:text="Set Pose" />
+
+            <RadioButton
+                android:id="@+id/set_goal_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="setGoalClicked"
+                android:checked="true"
+                android:text="Set Goal" />
+
+        </RadioGroup>
+
     </LinearLayout>
 
 </LinearLayout>
