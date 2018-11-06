@@ -42,22 +42,26 @@ public class OccupancyGridLayer extends SubscriberLayer<nav_msgs.OccupancyGrid> 
   /**
    * Color of occupied cells in the map.
    */
-  private static final int COLOR_OCCUPIED = 0xff111111;
+  // public int COLOR_OCCUPIED = 0xff111111;
 
-  /**
-   * Color of free cells in the map.
-   */
-  private static final int COLOR_FREE = 0xffffffff;
+  // /**
+  //  * Color of free cells in the map.
+  //  */
+  // public int COLOR_FREE = 0xffffffff;
 
-  /**
-   * Color of unknown cells in the map.
-   */
-  private static final int COLOR_UNKNOWN = 0xffdddddd;
+  // /**
+  //  * Color of unknown cells in the map.
+  //  */
+  // public int COLOR_UNKNOWN = 0xffdddddd;
 
   /**
    * Color of transparent cells in the map.
    */
-  private static final int COLOR_TRANSPARENT = 0x00000000;
+  public int COLOR_TRANSPARENT = 0x00000000;
+
+  public int COLOR_FREE = 0xffb2b2b2;
+  public int COLOR_OCCUPIED = 0xff4c004c;
+  public int COLOR_UNKNOWN = 0xff7dc9c9;
 
   /**
    * In order to draw maps with a size outside the maximum size of a texture,
@@ -206,12 +210,16 @@ public class OccupancyGridLayer extends SubscriberLayer<nav_msgs.OccupancyGrid> 
       Preconditions.checkState(y < height);
       final int tileIndex = (y / TextureBitmap.STRIDE) * numTilesWide + x / TextureBitmap.STRIDE;
       final byte pixel = buffer.readByte();
-      if (pixel == -1) {
-        tiles.get(tileIndex).writeInt(COLOR_UNKNOWN);
-      } else {
-        if (pixel < 50) {
+
+      if (pixel == 0) {
+          //android.util.Log.d("ZLJ", "COLOR_FREE" + Byte.toString(pixel));
           tiles.get(tileIndex).writeInt(COLOR_FREE);
+      } else {
+        if (pixel < 100) {
+          //android.util.Log.d("ZLJ", "COLOR_UNKNOWN" + Byte.toString(pixel));
+          tiles.get(tileIndex).writeInt(COLOR_UNKNOWN);
         } else {
+          //android.util.Log.d("ZLJ", "COLOR_OCCUPIED" + Byte.toString(pixel));
           tiles.get(tileIndex).writeInt(COLOR_OCCUPIED);
         }
       }

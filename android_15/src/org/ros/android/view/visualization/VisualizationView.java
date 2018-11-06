@@ -57,13 +57,16 @@ public class VisualizationView extends GLSurfaceView implements NodeMain {
   private XYOrthographicRenderer renderer;
   private ConnectedNode connectedNode;
 
+  public  Color BACKGROUND_COLOR = new Color(0.87f, 0.87f, 0.87f, 1.f);
+
+
   public VisualizationView(Context context) {
     super(context);
   }
 
   public VisualizationView(Context context, AttributeSet attrs) {
     super(context, attrs);
-  }
+  } 
 
   /**
    * Must be called in {@link Activity#onCreate(Bundle)}.
@@ -80,6 +83,7 @@ public class VisualizationView extends GLSurfaceView implements NodeMain {
     setEGLConfigChooser(8, 8, 8, 8, 0, 0);
     getHolder().setFormat(PixelFormat.TRANSLUCENT);
     renderer = new XYOrthographicRenderer(this);
+    renderer.BACKGROUND_COLOR = BACKGROUND_COLOR;
     setRenderer(renderer);
   }
 

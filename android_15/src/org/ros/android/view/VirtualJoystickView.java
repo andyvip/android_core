@@ -801,8 +801,11 @@ public class VirtualJoystickView extends RelativeLayout implements AnimationList
    */
   private void publishVelocity(double linearVelocityX, double linearVelocityY,
       double angularVelocityZ) {
+    if (currentVelocityCommand == null) {
+      return;
+    }
     currentVelocityCommand.getLinear().setX(linearVelocityX);
-    currentVelocityCommand.getLinear().setY(-linearVelocityY);
+    currentVelocityCommand.getLinear().setY(0);
     currentVelocityCommand.getLinear().setZ(0);
     currentVelocityCommand.getAngular().setX(0);
     currentVelocityCommand.getAngular().setY(0);

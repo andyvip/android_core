@@ -32,7 +32,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class XYOrthographicRenderer implements GLSurfaceView.Renderer {
 
-  private static final Color BACKGROUND_COLOR = new Color(0.87f, 0.87f, 0.87f, 1.f);
+  public Color BACKGROUND_COLOR = new Color(0.87f, 0.87f, 0.87f, 1.f);
 
   private final VisualizationView view;
 
